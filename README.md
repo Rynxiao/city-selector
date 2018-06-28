@@ -8,6 +8,10 @@
 
 github: [https://github.com/Rynxiao/city-selector](https://github.com/Rynxiao/city-selector)
 
+整体效果如下：
+
+![demo](./screen/demo.gif)
+
 ## 运行
 
 运行需知：首先去百度开放云平台申请自己的AK，申请方法见下面的**定位**
