@@ -2,6 +2,11 @@
 
 想到做这个，是因为无意中在github上看到了这一个仓库[https://github.com/lunlunshiwo/ChooseCity](https://github.com/lunlunshiwo/ChooseCity)，做的就是一个城市选择控件，是用vue写的，说的是阿里的一道题目，然后想想自己闲着也是闲着，就动手用react又重新做了一遍。
 
+## 演示
+
+地址：[城市选择控件](http://city-selector.rynxiao.cn/)
+github: [https://github.com/Rynxiao/city-selector](https://github.com/Rynxiao/city-selector)
+
 ## 运行
 
 运行需知：首先去百度开放云平台申请自己的AK，申请方法见下面的**定位**
@@ -108,7 +113,7 @@ async function getLocalCity() {
 
 ### 获取城市数据
 
-获取城市的接口API，历经千辛万苦终于在网上找到了一个能用的，但是数据格式可能不太满意，只能自己转化。如果不想用这个格式，你也可以自己起一个后台服务器，然后输出你自己喜欢的格式，这里我算是偷懒了。
+获取城市的接口API，历经千辛万苦终于在网上找到了一个能用的【这个接口有可能随时会挂哟😁😁😁】，但是数据格式可能不太满意，只能自己转化。如果不想用这个格式，你也可以自己起一个后台服务器，然后输出你自己喜欢的格式，这里我算是偷懒了。
 
 之前的格式是按照省份区分的：
 
@@ -233,6 +238,20 @@ onSearchInput = async value => {
     });
 }
 ```
+
+### 部署方面
+
+本来是想使用`heroku`来部署应用的，但是经过一番折腾之后，在heroku的日志中看到服务是已经启动了的，但是外网访问不了，还需要技术支持^_^
+
+![heroku-logs]()
+
+后来只能就部署到自己的腾讯云上面去了，案例地址为：[城市选择控件](http://city-selector.rynxiao.cn/)
+
+## 总结
+
+自己看到后就想写来玩玩而已，在其中也进一步了解了测试、react-router 4的用法，以及蚂蚁金服的UI库，也不是说没有收获。在项目中，也经过了一系列的代码重构，比如组件拆分、公共类库提取等等，写案例的同时也是在训练自己的意识，特意分享出来，大家共勉。
+
+最后，代码仓库为：[https://github.com/Rynxiao/city-selector](https://github.com/Rynxiao/city-selector)，如果觉得有点意思，多谢star。
 
 
 
