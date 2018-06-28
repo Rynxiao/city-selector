@@ -53,11 +53,40 @@ function throttle(fn, wait = 500, period = 1000) {
     }
 }
 
+function parseSearchToState(search) {
+    if (!search) {
+        return {};
+    }
+
+    return search.substr(1).split('&').reduce((r, m) => {
+        const key = m.split('=')[0];
+        const value = m.split('=')[1];
+        return r[key] = value, r;
+    }, {});
+}
+
+function parseStateToSearch(state) {
+    if (!state || typeof state !== 'object') {
+        return '';
+    }
+
+    const keys = Object.keys(state);
+    let search = '';
+    for (let key of keys) {
+        search += `${key}=${state[key]}&`;
+    }
+
+    search = search === '' ? search : `?${search.substr(0, search.length - 1)}`;
+    return search;
+}
+
 export {
     isChineseString,
     isEnglishString,
     saveLocalStorage,
     getLocalStorage,
     isJSONString,
-    throttle
+    throttle,
+    parseSearchToState,
+    parseStateToSearch
 }

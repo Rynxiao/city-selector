@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { NavBar, List } from 'antd-mobile';
+import { parseSearchToState, parseStateToSearch } from '../../utils';
 import './App.css';
 
 const Item = List.Item;
@@ -15,15 +16,16 @@ class App extends Component {
 
   componentDidMount = () => {
     const { location } = this.props;
-    const state = location && location.state;
-    state && this.setState(state);
+    const search = location && location.search;
+    const searchState = parseSearchToState(search);
+    searchState && this.setState(searchState);
   }
 
   gotoChooseCity = (cityCode) => {
     const { history } = this.props;
     history.push({
       pathname: '/city',
-      state: { cityCode, ...this.state }
+      search: parseStateToSearch({ cityCode, ...this.state })
     });
   }
 

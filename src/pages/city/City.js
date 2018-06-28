@@ -10,7 +10,11 @@ import {
     searchCityByName,
     transformCityMenuData
 } from '../../services/cityServices';
-import { throttle } from '../../utils';
+import { 
+    throttle,
+    parseSearchToState,
+    parseStateToSearch
+} from '../../utils';
 import './city.css';
 
 const Item = List.Item;
@@ -134,14 +138,15 @@ class City extends Component {
         }
 
         const { history, location } = this.props;
-        const { cityCode, ...rest } = location.state;
+        const search = location.search;
+        const { cityCode, ...rest } = parseSearchToState(search);
         const backCity = typeof city === 'string' ? city : city.city;
 
         rest[`city${cityCode}`] = backCity;
         saveLocalStorageCity(LASTEST_CITY, backCity);
         history.push({
             pathname: '/',
-            state: { ...rest }
+            search: parseStateToSearch({ ...rest })
         });
     }
 

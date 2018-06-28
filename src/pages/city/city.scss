@@ -53,7 +53,8 @@
     }
     &-list-content {
         flex: 1;
-        overflow-y: auto; 
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch; 
     }
     &-label {
         width: 20px;

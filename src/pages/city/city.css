@@ -44,7 +44,8 @@
     margin-left: 3px; }
   .city-list-content {
     flex: 1;
-    overflow-y: auto; }
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch; }
   .city-label {
     width: 20px;
     height: 100%;
