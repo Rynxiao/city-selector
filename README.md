@@ -118,11 +118,11 @@ async function getLocalCity() {
 
 之前的格式是按照省份区分的：
 
-![before-format-json]()
+![before-format-json](./screen/before-format-json.png)
 
 格式化之后的格式是按照拼音字母来区分的:
 
-![after-format-json]()
+![after-format-json](./screen/after-format-json.png)
 
 **设置代理**
 
@@ -195,7 +195,7 @@ import { Button } from 'antd-mobile';
 
 ### 导航条滑动
 
-之前的写过一篇文章[移动端效果之IndexList]()，具体实现可以参看。
+之前的写过一篇文章[移动端效果之IndexList](https://www.cnblogs.com/rynxiao/p/7694601.html)，具体实现可以参看。
 
 ### 搜索联动
 
@@ -244,7 +244,7 @@ onSearchInput = async value => {
 
 本来是想使用`heroku`来部署应用的，但是经过一番折腾之后，在heroku的日志中看到服务是已经启动了的，但是外网访问不了，还需要技术支持^_^
 
-![heroku-logs]()
+![heroku-logs](./screen/heroku-logs.png)
 
 后来只能就部署到自己的腾讯云上面去了，案例地址为：[城市选择控件](http://city-selector.rynxiao.cn/)
 
