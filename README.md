@@ -37,7 +37,7 @@ npm run test
 
 ## 技术栈
 
-采用的是react官网提供的脚手架`create-react-app`，因此整体技术是`react`，采用`webpack`进行打包构建，`jest`测试。同时在此基础上新增了一些东西。
+采用的是react官网提供的脚手架[create-react-app](https://github.com/facebook/create-react-app)，因此整体技术是`react`，采用`webpack`进行打包构建，`jest`测试。同时在此基础上新增了一些东西。
 
 ### sass
 
@@ -105,6 +105,135 @@ async function getLocalCity() {
     }); 
 }
 ```
+
+### 获取城市数据
+
+获取城市的接口API，历经千辛万苦终于在网上找到了一个能用的，但是数据格式可能不太满意，只能自己转化。如果不想用这个格式，你也可以自己起一个后台服务器，然后输出你自己喜欢的格式，这里我算是偷懒了。
+
+之前的格式是按照省份区分的：
+
+![before-format-json]()
+
+格式化之后的格式是按照拼音字母来区分的:
+
+![after-format-json]()
+
+**设置代理**
+
+因为请求的地址域名不一致，肯定会有跨域问题，这里在package.json中设置了代理，如下：
+
+```javascript
+"proxy": "http://www.msece.com"
+```
+
+**获取城市**
+
+```javascript
+// src/services/cityServices.js
+async function getAllCities() {
+    const json = await axios.get(CITY_API);
+    return formatCites(json);
+}
+```
+
+### UI
+
+UI方面自己没有什么创意，所以使用了阿里的`antd-mobile`，可以去这里看：[antd-mobile](https://mobile.ant.design/docs/react/introduce-cn)
+
+```javascript
+// 安装依赖
+npm install antd-mobile --save
+
+// 按需加载
+// 1. 安装依赖
+npm install react-app-rewired --save-dev
+npm install babel-plugin-import --save-dev
+
+// 2. 在package.json中，将script中的 react-scripts 换成 react-app-rewired
+
+// 3. 在根目录下建立config-overrides.js，内容如下：
+const { injectBabelPlugin } = require('react-app-rewired');
+
+module.exports = function override(config, env) {
+    config = injectBabelPlugin(['import', { libraryName: 'antd-mobile', style: 'css' }], config);
+    return config;
+};
+
+// 4. 更改引入方式
+// before
+import Button from 'antd-mobile/lib/button';
+// after
+import { Button } from 'antd-mobile';
+```
+
+## coding
+
+进行了组件的拆分，主要为：
+
+- 头部
+- 搜索区域
+- 需要定位的城市区域（分为最近城市和热门城市）
+- 列表区域
+- 右侧导航区域
+- 搜索弹层区域
+
+具体可以参看`src/components/city`下的组件
+
+### 最近选择城市
+
+采用的是本地localstorage进行存储，默认最多存储两个，后选择的城市会替换掉第一个，如果选择的城市中有相同的，则不进行替换。页面公用本地存储，若不想公用，可以在之后区分id即可。
+
+### 热门城市
+
+热门城市是自己预先定义的，如果不希望预先定义，也可以参照某些API，这里算是偷懒。
+
+### 导航条滑动
+
+之前的写过一篇文章[移动端效果之IndexList]()，具体实现可以参看。
+
+### 搜索联动
+
+支持中/英文搜索，中文搜索是进行了全数据遍历，英文搜索是进行了首字符判断，然后再进行子集遍历。在搜索方面，使用了函数节流，如果在1秒中之内还没有输入完成，则必须进行一次搜索。
+
+```javascript
+// src/utils/index.js
+function throttle(fn, wait = 500, period = 1000) {
+    let startTime = new Date().getTime();
+    let timeout;
+    return (...args) => {
+        return new Promise(resolve => {
+            const now = new Date().getTime();
+            if (now - startTime >= period) {
+                startTime = now;
+                resolve(fn.apply(null, args));
+            } else {
+                timeout && clearTimeout(timeout);
+                timeout = setTimeout(() => {
+                    resolve(fn.apply(null, args));
+                }, wait);
+            }
+        }); 
+    }
+}
+
+// src/pages/city/City.js
+const searchCity = throttle(searchCityByName);
+
+onSearchInput = async value => {
+    if (!value) {
+        this.hideMenuDialog();
+        return;
+    }
+
+    const { labels, city } = this.state;
+    const cities = await searchCity(value, labels, city);
+    this.setState({  
+        searchArea: true, 
+        searchCities: transformCityMenuData(cities) 
+    });
+}
+```
+
 
 
 
