@@ -23,3 +23,4 @@ yarn-error.log*
 ./src/**/*.css
 .idea
 .vscode
+./package-lock.json
