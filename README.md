@@ -4,12 +4,14 @@
 
 ## 运行
 
+运行需知：首先去百度开放云平台申请自己的AK，申请方法见下面的**定位**
+
 ```cmd
 # dev
 npm install
 npm start
 
-# production
+# deploy
 npm run build
 npm install http-server -g
 http-server ./build -p 38083 -s -P http://www.msece.com
